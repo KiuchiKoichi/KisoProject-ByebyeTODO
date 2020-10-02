@@ -1,6 +1,9 @@
 # KisoProject-ByebyeTODO
 Bye bye TODO
 
+## refs
+* [このサイト](https://qiita.com/ragnar1904/items/defab259cde73669cc6d) を参考にディレクトリを構成
+
 ## flake8
 ### features
 * if there has error, your coding is wrong.
