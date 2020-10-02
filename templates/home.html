@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+  To-Do List
+{% endblock %}
+{% block content %}
+
+
+    {% if all_items %}
+    <table class="table table-bordered">
+        {% for todo in all_items %}
+            {% if todo.completed %}
+                <tr class="table-secondary">
+                    <td class="striker">{{ todo.item }}</td>
+                    <td><center>{{ todo.completed }}</center></td>
+                    <td><center>Delete</center></td>
+                </tr>
+            {% else %}
+                <tr class="table-info">
+                    <td>{{ todo.item }}</td>
+                    <td><center>{{ todo.completed }}</center></td>
+                    <td><center>Delete</center></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}

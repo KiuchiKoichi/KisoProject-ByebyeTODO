@@ -2,7 +2,8 @@
 Bye bye TODO
 
 ## refs
-* [このサイト](https://qiita.com/ragnar1904/items/defab259cde73669cc6d) を参考にディレクトリを構成
+* [このサイト](https://qiita.com/__init__/items/b8fd530f3b8603231b35) を参考にディレクトリを構成
+    * [ここから](https://qiita.com/__init__/items/b8fd530f3b8603231b35#%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8%E3%81%AE%E5%AE%9F%E8%A3%85) 未着手
 
 ## flake8
 ### features
