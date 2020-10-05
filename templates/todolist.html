@@ -22,10 +22,6 @@
     <input type="hidden" name="task_id" value="{{ task.id }}">
     <input type="submit" name="operation" value="modify">
     <input type="reset" value="reset">
-    </form>
-    <form action="{% url 'todo:todolist' %}" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="task_id" value="{{ task.id }}">
     <input type="submit" name="operation" value="delete">
     </form>
 
