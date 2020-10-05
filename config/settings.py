@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ByeByeTODO.apps.ByeByeTODOConfig',
+    'todo.apps.TodoConfig',
 ]
 
 MIDDLEWARE = [
@@ -110,8 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'ja-JP'
-
-TIME_ZONE = 'Asia/Tokyo'
+# 内部的にはUTCで扱いたいのでTIME_ZONEは変更しないでください
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

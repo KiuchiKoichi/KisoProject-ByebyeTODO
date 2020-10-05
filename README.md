@@ -1,6 +1,5 @@
 # KisoProject-ByebyeTODO
 Bye bye TODO
-pushのテスト
 
 ## refs
 * [このサイト](https://qiita.com/__init__/items/b8fd530f3b8603231b35) を参考にディレクトリを構成
