@@ -1,7 +1,7 @@
 import datetime
 import pytz
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Task
 
@@ -11,63 +11,60 @@ tzname = 'Asia/Tokyo'
 
 
 def todolist(request) -> render:
-    context = {
+    return render_todolist(request, "")
+
+
+def add(request) -> render:
+    try:
+        task_text = request.POST['task_text']
+    except (KeyError):
+        return render_todolist(request, "Trouble with task_text")
+    try:
+        deadline_str = request.POST['deadline']
+    except (KeyError):
+        return render_todolist(request, "Trouble with deadline")
+    deadline = str_to_dt(deadline_str)
+    Task.objects.create(task_text=task_text, deadline=deadline)
+    return redirect('todo:todolist')
+
+
+def delete_modify(request) -> render:
+    try:
+        operation: str = request.POST['operation']
+    except(KeyError, Task.DoesNotExist):
+        return render_todolist(request, "Trouble with operation")
+    try:
+        task: Task = Task.objects.get(pk=request.POST['task_id'])
+    except(KeyError, Task.DoesNotExist):
+        return render_todolist(request, "Trouble with task_id")
+
+    if operation == 'delete':
+        task.delete()
+
+    elif operation == 'modify':
+        try:
+            task_text: str = request.POST['task_text']
+        except (KeyError):
+            return render_todolist(request, "Trouble with task_text")
+        try:
+            deadline_str: str = request.POST['deadline']
+        except (KeyError):
+            return render_todolist(request, "Trouble with deadline")
+        deadline = str_to_dt(deadline_str)
+        task.task_text = task_text
+        task.deadline = deadline
+        task.save()
+
+    return redirect('todo:todolist')
+
+
+def render_todolist(request, error_message: str) -> render:
+    return render(request, 'todolist.html', {
         'tzname': tzname,
         'current_time': timezone.now(),
         'task_list': Task.objects.order_by('deadline'),
-    }
-    if request.method == 'POST':
-        operation: str = request.POST['operation']
-        if operation == 'add':
-            context['error_message'] = add(request)
-        elif operation == 'delete':
-            context['error_message'] = delete(request)
-        elif operation == 'modify':
-            context['error_message'] = modify(request)
-    return render(request, 'todolist.html', context)
-
-
-def add(request) -> str:
-    try:
-        task_text = request.POST['task_text']
-    except (KeyError):
-        return "Trouble with task_text"
-    try:
-        deadline_str = request.POST['deadline']
-    except (KeyError):
-        return "Trouble with deadline"
-    deadline = str_to_dt(deadline_str)
-    Task.objects.create(task_text=task_text, deadline=deadline)
-    return ""
-
-
-def delete(request) -> str:
-    try:
-        task = Task.objects.get(pk=request.POST['task_id'])
-    except(KeyError, Task.DoesNotExist):
-        return "Trouble with task_id"
-    task.delete()
-    return ""
-
-
-def modify(request) -> str:
-    try:
-        task_text = request.POST['task_text']
-    except (KeyError):
-        return "Trouble with task_text"
-    try:
-        deadline_str = request.POST['deadline']
-    except (KeyError):
-        return "Trouble with deadline"
-    try:
-        task = Task.objects.get(pk=request.POST['task_id'])
-    except(KeyError, Task.DoesNotExist):
-        return "Trouble with task_id"
-    deadline = str_to_dt(deadline_str)
-    task.task_text = task_text
-    task.deadline = deadline
-    task.save()
-    return ""
+        'error_message': error_message,
+    })
 
 
 def str_to_dt(dt_str: str):
