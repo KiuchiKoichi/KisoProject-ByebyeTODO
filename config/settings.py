@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ByeByeTODO.apps.ByeByeTODOConfig',
     'todo.apps.TodoConfig',
+    'webpush',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,23 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+
+# mail
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'kisopro.byebyetodo@gmail.com'
+# 使用時に書いて、Gitにpushするときはセキュリティのため削除すること
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+
+
+# webpush
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": "BEcbIwZN8WSUEd7XggDaRjYOV5E7ZVfpjHH4heGxMHPcsaK29UpyF0h2xPQCZht9k6inRJr9c6WgmcsFgLnJwgA",
+    "VAPID_PRIVATE_KEY": "5mrY_WNvCe8Bkf4BSHc4HAj_J0dGEBqNu7MRP-xuTOc",
+    "VAPID_ADMIN_EMAIL": "kisopro.byebyetodo@gmail.com"
+}
