@@ -1,20 +1,9 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f466b8e... スペルミスの修正
 import datetime
 import pytz
 from django.utils import timezone
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from todo.models import Task
-<<<<<<< HEAD
-=======
-from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
->>>>>>> 51b8f18... プッシュとメール通知の準備
-=======
->>>>>>> f466b8e... スペルミスの修正
 
 from typing import List
 

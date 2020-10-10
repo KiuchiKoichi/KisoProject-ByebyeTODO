@@ -1,26 +1,10 @@
 import datetime
 import pytz
-<<<<<<< HEAD
-<<<<<<< HEAD
 from django.utils import timezone
 from django.core.management.base import BaseCommand
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from todo.models import Task
-=======
-from django.urils import timezone
-from django.core.management.base import BaseCommand
-from django.urls import reverse
-from django.contrib.auth.models import User, Group
-from django.models import Task
->>>>>>> 51b8f18... プッシュとメール通知の準備
-=======
-from django.utils import timezone
-from django.core.management.base import BaseCommand
-from django.urls import reverse
-from django.contrib.auth.models import User, Group
-from todo.models import Task
->>>>>>> f466b8e... スペルミスの修正
 from webpush import send_user_notification, send_group_notification
 
 from typing import Dict, List
