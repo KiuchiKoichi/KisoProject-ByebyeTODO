@@ -6,10 +6,14 @@ from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from todo.models import Task
 from webpush import send_user_notification, send_group_notification
+"""
+from account.models import UserSetting
+"""
 
 from typing import Dict, List
 
 """ htmlの記述
+{% load webpush_notifications %}
 <head>
   {% webpush_header %}
 </head>
@@ -17,8 +21,6 @@ from typing import Dict, List
   {% webpush_button %}
 </body>
 """
-
-tzname: str = 'Asia/Tokyo'
 
 
 class Command(BaseCommand):
@@ -29,7 +31,7 @@ class Command(BaseCommand):
         payload: Dict[str, str] = {
             "head": "ByeByeTODO",
             "body": "量子力学の課題 10/12 23:59 〆切",
-            "icon": "/static/images/webpush_icon_test.png",
+            "icon": "/static/images/icon_pushnotice.jpg",
             "url": url,
         }
         send_user_notification(user=user, payload=payload, ttl=10)
@@ -37,14 +39,15 @@ class Command(BaseCommand):
         """Taskにgroup:ForeignKeyを設定してから
         payload: Dict[str, str] = {
             "head": "もうすぐ〆切！",
-            "icon": "/static/images/webpush_icon_test.png",
-            "url": reverse('todo:todolist'),
+            "icon": "/static/images/icon_pushnotice.jpg",
         }
-        nearby_tasks: List[Task] = Task.objects.filter(deadline__lt=timezone.now()+datetime.timedelta(days=1))
+        nearby_tasks: List[Task] = Task.objects.filter(deadline__gt=timezone.now(), deadline__lt=timezone.now()+datetime.timedelta(days=1))
         for group in Group.objects.all():
-            task: Task = nearby_tasks.filter(group__id=group.id).order_by('deadline')[0]
+            task: Task = nearby_tasks.filter(group=group).order_by('deadline')[0]
             if task:
-                deadline_str: str = task.deadline.astimezone(pytz.timezone(tzname)).strftime('%m/%d %H:%M')
+                setting, created = UserSetting.objects.get_or_create(user=user)
+                deadline_str: str = task.deadline.astimezone(pytz.timezone(setting.tz)).strftime('%m/%d %H:%M')
                 payload["body"] = "{0} {1} 〆切".format(task.task_text, deadline_str)
+                payload["url"] = reverse('todo:todolist', group.pk),
                 send_group_notification(group_name=group.name, payload=payload, ttl=1000)
         """
