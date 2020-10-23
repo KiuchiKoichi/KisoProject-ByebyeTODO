@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('ByeByeTODO.urls')),
     path('todo/', include('todo.urls')),
     path('admin/', admin.site.urls),
+    path('webpush/', include('webpush.urls'))
 ]
