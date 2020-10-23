@@ -13,6 +13,14 @@ def index(request) -> render:
     return render(request, 'index.html', {})
 
 
+def login(request) -> render:
+    """
+    http://127.0.0.1:8000/
+    ページトップを作成
+    """
+    return render(request, 'login.html', {})
+
+
 def home(request) -> render:
     """
     http://127.0.0.1:8000/
