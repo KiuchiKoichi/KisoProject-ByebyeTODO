@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ByeByeTODO.apps.ByeByeTODOConfig',
     'todo.apps.TodoConfig',
+    'accounts',
+    'bootstrap4',
     'webpush',
 ]
 
@@ -57,11 +59,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+#SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
+            #os.path.join(SETTINGS_PATH, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -77,6 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+AUTH_USER_MODEL = "accounts.User" 
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -84,7 +90,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

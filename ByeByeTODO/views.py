@@ -1,5 +1,4 @@
-
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from typing import Dict
 from .models import List
 from .forms import ListForm
@@ -16,9 +15,10 @@ def index(request) -> render:
 def login(request) -> render:
     """
     http://127.0.0.1:8000/
-    ページトップを作成
+    ログインを作成
     """
-    return render(request, 'login.html', {})
+    #return render(request, 'accounts/registration/login.html', {})
+    return redirect('registration/login.html')
 
 
 def home(request) -> render:
