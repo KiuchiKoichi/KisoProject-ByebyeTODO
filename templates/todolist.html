@@ -1,34 +1,41 @@
-
 {% load tz %}
 {% timezone tzname %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if messages %}
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+{% endif %}
 
-<form action="{% url 'todo:add' %}" method="post">
-{% csrf_token %}
-<input type="text" name="task_text">
-<input type="datetime-local" name="deadline" value="{{ current_time|date:'Y-m-d' }}T{{ current_time|date:'H:i' }}">
-<input type="submit" value="add">
+{{ group.name|slice:':-10' }} のToDoList
+<a href="{% url 'account:mypage' %}">マイページに戻る</a>
+<a href="{% url 'account:logout' %}">ログアウト</a>
+
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="task_text">
+  <input type="datetime-local" name="deadline" value="{% now 'Y-m-d\TH:i' %}">
+  <input type="submit" value="追加" formaction="{% url 'todo:add' group.pk %}">
 </form>
 
 {% if task_list %}
-<ul>
-  {% for task in task_list %}
-  <li>
-    <form action="{% url 'todo:delete_modify' %}" method="post">
-    {% csrf_token %}
-    <input type="text" name="task_text" value="{{ task.task_text }}">
-    <input type="datetime-local" name="deadline" value="{{ task.deadline|date:'Y-m-d' }}T{{ task.deadline|date:'H:i' }}">
-    <input type="hidden" name="task_id" value="{{ task.id }}">
-    <input type="submit" name="operation" value="modify">
-    <input type="reset" value="reset">
-    <input type="submit" name="operation" value="delete">
-    </form>
-  </li>
-  {% endfor %}
-</ul>
+  <ul>
+    {% for task in task_list %}
+      <li>
+        <form method="post">
+          {% csrf_token %}
+          <input type="text" name="task_text" value="{{ task.task_text }}">
+          <input type="datetime-local" name="deadline" value="{{ task.deadline|date:'Y-m-d\TH:i' }}">
+          <input type="hidden" name="task_id" value="{{ task.id }}">
+          <input type="submit" value="変更" formaction="{% url 'todo:modify' group.pk %}">
+          <input type="reset" value="リセット">
+          <input type="submit" value="削除" formaction="{% url 'todo:delete' group.pk %}">
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
 {% else %}
-<p>task does not exist.</p>
+  <p>タスクはありません</p>
 {% endif %}
 
 {% endtimezone %}
