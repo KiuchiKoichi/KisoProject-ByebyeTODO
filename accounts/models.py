@@ -73,6 +73,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # user setting
     mycolor: str = models.CharField(max_length=50, choices=COLOR_CHOICES, default='GREEN')
+    '''class Color(models.Model):
+        name = models.CharField('テーマ名', max_length=255)
+        background_color = models.CharField('背景色', max_length=255)
+        text_color = models.CharField('一部テキストの色', max_length=255)
+
+        def __str__(self):
+            return self.name'''
     accept_email: bool = models.BooleanField(default=False)
     tz: str = models.CharField(max_length=50, choices=TZ_CHOICES, default='UTC')
 

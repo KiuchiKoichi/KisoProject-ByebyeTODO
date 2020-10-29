@@ -12,7 +12,7 @@
 
 {{ user.email }} さんの設定
 
-<form method="post">
+<form method="post" id="target">
   {% csrf_token %}
   <table>
     <tr>
@@ -25,6 +25,13 @@
     </tr>
     {{ form.mycolor.errors }}
     <tr>
+      <td class="frame">テストコンテンツ</td>
+      <td class="choice"><a href="javascript:changeGreenMode();">グリーン</a>
+    <a href="javascript:changeBrownMode();">ブラウン</a>
+    <a href="javascript:changeDarkMode();">ブラック</a>
+    <a href="javascript:changePinkMode();">ピンク</a></td>
+    </tr>
+    <tr>
       <td>{{ form.tz.label_tag }}</td>
       <td>{{ form.tz }}</td>
     </tr>
@@ -35,7 +42,7 @@
     </tr>
     {{ form.accept_email.errors }}
     <tr>
-      <td>プッシュ通知の受取: </td>
+      <td>プッシュ通知の受け取り: </td>
       <td>{% webpush_button %}</td>
     </tr>
   </table>

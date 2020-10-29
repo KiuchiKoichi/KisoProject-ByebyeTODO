@@ -25,10 +25,16 @@ class UserSettingForm(forms.ModelForm):
         model = User
         fields: Tuple[str, ...] = ('mycolor', 'accept_email', 'tz',)
         labels: Dict[str, str] = {
-            'mycolor': 'カラー設定',
-            'accept_email': 'メール通知の受取',
-            'tz': 'タイムゾーン',
+            'mycolor': 'テーマカラー選択',
+            'accept_email': 'メール通知の受け取り',
+            'tz': 'タイムゾーン設定',
         }
         widgets = {
             'mycolor': forms.RadioSelect,
         }
+        #choice = forms.ChoiceField(label='radio', \choices=COLOR_CHOICES, widget=forms.RadioSelect())
+    '''class ColorForm(forms.Form):
+        color = forms.ModelChoiceField(queryset=Color.objects.all(),
+        empty_label=None,
+        required=False, 
+        )'''

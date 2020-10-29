@@ -1,3 +1,8 @@
-.striker {
-    text-decoration: line-through;
+@charset "UTF-8";
+.form-text {
+    display: none;
+}
+
+.borderless td, .borderless th {
+    border: none;
 }
