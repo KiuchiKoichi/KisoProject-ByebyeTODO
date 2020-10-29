@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'ByeByeTODO.apps.ByeByeTODOConfig',
     'todo.apps.TodoConfig',
     'accounts',
-    'bootstrap4',
+    # 'bootstrap4',
     'webpush',
 ]
 
@@ -82,7 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-AUTH_USER_MODEL = "accounts.User" 
+AUTH_USER_MODEL = "accounts.User"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -144,7 +144,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'kisopro.byebyetodo@gmail.com'
-# 使用時に書いて、Gitにpushするときはセキュリティのため削除すること
+# 使用時に書いて、Gitにaddするときはセキュリティのため削除すること
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
 

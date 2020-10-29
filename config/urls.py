@@ -23,18 +23,18 @@ urlpatterns = [
     path('todo/', include('todo.urls')),
     path('admin/', admin.site.urls),
     path('webpush/', include('webpush.urls')),
-    path('accounts/', include('accounts.urls')), 
-    path('accounts/', include('django.contrib.auth.urls')), 
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 '''
 urlpatterns = [
     path('', RedirectView.as_view(url='/ByeByeTODO/')),
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')), 
-    path('ByeByeTODO/', include('ByeByeTODO.urls')), 
-    path('todo/', include('todo.urls')), 
-    path('accounts/', include('django.contrib.auth.urls')), 
+    path('accounts/', include('accounts.urls')),
+    path('ByeByeTODO/', include('ByeByeTODO.urls')),
+    path('todo/', include('todo.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('webpush/', include('webpush.urls')),
 ]
 
