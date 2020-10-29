@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load webpush_notifications %}
+{% webpush_header %}
+
+{% if messages %}
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+{{ user.email }} さんの設定
+
+<form method="post">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <td>{{ form.mycolor.label_tag }}</td>
+      <td>
+        {% for radio in form.mycolor %}
+          {{ radio.tag }}{{ radio.choice_label}}
+        {% endfor %}
+      </td>
+    </tr>
+    {{ form.mycolor.errors }}
+    <tr>
+      <td>{{ form.tz.label_tag }}</td>
+      <td>{{ form.tz }}</td>
+    </tr>
+    {{ form.tz.errors }}
+    <tr>
+      <td>{{ form.accept_email.label_tag }}</td>
+      <td>{{ form.accept_email }}</td>
+    </tr>
+    {{ form.accept_email.errors }}
+    <tr>
+      <td>プッシュ通知の受取: </td>
+      <td>{% webpush_button %}</td>
+    </tr>
+  </table>
+  <input type="submit" value="変更" formaction="{% url 'accounts:setting' %}"/>
+
+</form>
+
+{% endblock %}

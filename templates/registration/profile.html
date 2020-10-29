@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <table class="table borderless">
+        <tbody>
+        <tr>
+            <th scope="row">E-mail</th>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th scope="row">入会日</th>
+            <td>{{ user.date_joined }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+
+    {{ user.email }} さんのマイページ
+
+    <form method="post">
+      {% csrf_token %}
+      <input type="text" name="name">
+      <input type="submit" value="作成" formaction="{% url 'todo:create_group' %}"/>
+    </form>
+
+    {% if user.groups.all %}
+      <ul>
+        {% for group in user.groups.all %}
+          <li>
+            <a href="{% url 'todo:todolist' group.pk %}">{{ group.name|slice:':-10' }}</a>
+            <form method="post">
+              {% csrf_token %}
+              <input type="text" name="name" value="{{ group.name|slice:':-10' }}">
+              <input type="hidden" name="pk" value="{{ group.pk }}">
+              <input type="submit" value="変更" formaction="{% url 'todo:update_group' %}" />
+              <input type="reset" value="リセット">
+              <input type="submit" value="削除" formaction="{% url 'todo:delete_group' %}" />
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>グループはありません</p>
+    {% endif %}
+
+{% endblock %}

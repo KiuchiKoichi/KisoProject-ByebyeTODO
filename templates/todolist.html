@@ -1,5 +1,10 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
 {% load tz %}
-{% timezone tzname %}
+{% timezone user.tz %}
 
 {% if messages %}
   {% for message in messages %}
@@ -8,28 +13,55 @@
 {% endif %}
 
 {{ group.name|slice:':-10' }} のToDoList
-<a href="{% url 'account:mypage' %}">マイページに戻る</a>
-<a href="{% url 'account:logout' %}">ログアウト</a>
 
 <form method="post">
   {% csrf_token %}
   <input type="text" name="task_text">
   <input type="datetime-local" name="deadline" value="{% now 'Y-m-d\TH:i' %}">
-  <input type="submit" value="追加" formaction="{% url 'todo:add' group.pk %}">
+  <input type="submit" value="追加" formaction="{% url 'todo:create_task' group.pk %}">
 </form>
 
-{% if task_list %}
+{% if overdue_list  or nearby_list or other_list %}
   <ul>
-    {% for task in task_list %}
+    <p>直近のタスク</p>
+    {% for task in nearby_list %}
       <li>
         <form method="post">
           {% csrf_token %}
           <input type="text" name="task_text" value="{{ task.task_text }}">
           <input type="datetime-local" name="deadline" value="{{ task.deadline|date:'Y-m-d\TH:i' }}">
           <input type="hidden" name="task_id" value="{{ task.id }}">
-          <input type="submit" value="変更" formaction="{% url 'todo:modify' group.pk %}">
+          <input type="submit" value="変更" formaction="{% url 'todo:update_task' group.pk %}">
           <input type="reset" value="リセット">
-          <input type="submit" value="削除" formaction="{% url 'todo:delete' group.pk %}">
+          <input type="submit" value="削除" formaction="{% url 'todo:delete_task' group.pk %}">
+        </form>
+      </li>
+    {% endfor %}
+    <p>他のタスク</p>
+    {% for task in other_list %}
+      <li>
+        <form method="post">
+          {% csrf_token %}
+          <input type="text" name="task_text" value="{{ task.task_text }}">
+          <input type="datetime-local" name="deadline" value="{{ task.deadline|date:'Y-m-d\TH:i' }}">
+          <input type="hidden" name="task_id" value="{{ task.id }}">
+          <input type="submit" value="変更" formaction="{% url 'todo:update_task' group.pk %}">
+          <input type="reset" value="リセット">
+          <input type="submit" value="削除" formaction="{% url 'todo:delete_task' group.pk %}">
+        </form>
+      </li>
+    {% endfor %}
+    <p>〆切後のタスク</p>
+    {% for task in overdue_list %}
+      <li>
+        <form method="post">
+          {% csrf_token %}
+          <input type="text" name="task_text" value="{{ task.task_text }}">
+          <input type="datetime-local" name="deadline" value="{{ task.deadline|date:'Y-m-d\TH:i' }}">
+          <input type="hidden" name="task_id" value="{{ task.id }}">
+          <input type="submit" value="変更" formaction="{% url 'todo:update_task' group.pk %}">
+          <input type="reset" value="リセット">
+          <input type="submit" value="削除" formaction="{% url 'todo:delete_task' group.pk %}">
         </form>
       </li>
     {% endfor %}
@@ -39,3 +71,5 @@
 {% endif %}
 
 {% endtimezone %}
+
+{% endblock %}

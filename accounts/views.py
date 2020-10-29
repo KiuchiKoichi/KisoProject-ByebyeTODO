@@ -1,73 +1,55 @@
-import datetime
-import pytz
-from django.utils import timezone
+from django.urls import reverse_lazy
+from django.views import generic
 from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Task
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import (
+     get_user_model, logout as auth_logout,
+)
+from .forms import UserCreateForm, UserSettingForm
 
-# Create your views here.
-
-tzname = 'Asia/Tokyo'
-
-
-def todolist(request) -> render:
-    return render_todolist(request, "")
-
-
-def add(request) -> render:
-    try:
-        task_text = request.POST['task_text']
-    except (KeyError):
-        return render_todolist(request, "Trouble with task_text")
-    try:
-        deadline_str = request.POST['deadline']
-    except (KeyError):
-        return render_todolist(request, "Trouble with deadline")
-    deadline = str_to_dt(deadline_str)
-    Task.objects.create(task_text=task_text, deadline=deadline)
-    return redirect('todo:todolist')
+User = get_user_model()
 
 
-def delete_modify(request) -> render:
-    try:
-        operation: str = request.POST['operation']
-    except(KeyError, Task.DoesNotExist):
-        return render_todolist(request, "Trouble with operation")
-    try:
-        task: Task = Task.objects.get(pk=request.POST['task_id'])
-    except(KeyError, Task.DoesNotExist):
-        return render_todolist(request, "Trouble with task_id")
-
-    if operation == 'delete':
-        task.delete()
-
-    elif operation == 'modify':
-        try:
-            task_text: str = request.POST['task_text']
-        except (KeyError):
-            return render_todolist(request, "Trouble with task_text")
-        try:
-            deadline_str: str = request.POST['deadline']
-        except (KeyError):
-            return render_todolist(request, "Trouble with deadline")
-        deadline = str_to_dt(deadline_str)
-        task.task_text = task_text
-        task.deadline = deadline
-        task.save()
-
-    return redirect('todo:todolist')
+class Top(generic.TemplateView):
+    template_name = 'top.html'
 
 
-def render_todolist(request, error_message: str) -> render:
-    return render(request, 'todolist.html', {
-        'tzname': tzname,
-        'current_time': timezone.now(),
-        'task_list': Task.objects.order_by('deadline'),
-        'error_message': error_message,
-    })
+class Index(generic.TemplateView):
+    template_name = 'accounts/index.html'
 
 
-def str_to_dt(dt_str: str):
-    dt_naive = datetime.datetime.strptime(dt_str, "%Y-%m-%dT%H:%M")
-    dt_aware = timezone.make_aware(dt_naive, pytz.timezone(tzname))
-    return dt_aware
+class SignUpView(generic.CreateView):
+    form_class = UserCreateForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
+
+
+class ProfileView(LoginRequiredMixin, generic.View):
+
+    def get(self, *args, **kwargs):
+        return render(self.request, 'registration/profile.html')
+
+
+class DeleteView(LoginRequiredMixin, generic.View):
+
+    def get(self, *args, **kwargs):
+        user = User.objects.get(email=self.request.user.email)
+        user.is_active = False
+        user.save()
+        auth_logout(self.request)
+        return render(self.request,'registration/delete_complete.html')
+
+
+@login_required
+def setting(request) -> render:
+    user = request.user
+    if request.method == "POST":
+        form = UserSettingForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:setting')
+    else:
+        form = UserSettingForm(instance=user)
+    return render(request, 'usersetting.html', {'form': form})
