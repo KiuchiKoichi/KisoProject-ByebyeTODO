@@ -15,23 +15,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet">
     
     <!-- JavaScript -->
-    <script type="text/javascript">
-    function changeGreenMode() {
-      document.documentElement.setAttribute('theme', 'green');
-    }
-    function changeBrownMode() {
-      document.documentElement.setAttribute('theme', 'brown');
-    }
-    function changeDarkMode(){
-      document.documentElement.setAttribute('theme', 'dark');
-    }
-    function changePinkMode() {
-      document.documentElement.setAttribute('theme', 'pink');
-    }
-    </script>
+    <script type="text/javascript" src="{% static 'js/test.js' %}"></script>
     
     <title>{% block title %}ByebyeTodo{% endblock %}</title>
     <link rel="icon" type="image/png" href="/todo/../static/images/icon_GREEN.png">
+    {% block head %}{% endblock %}
   </head>
   <body>
 
@@ -67,6 +55,8 @@
       <br>
       <div class="container">
         {% block content %}
+        {% endblock %}
+        {% block color %}
         {% endblock %}
       </div>
       <!--<div class="container">

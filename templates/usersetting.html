@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
+
+<!-- {% block head %}
+ <script type="text/javascript" src="{% static 'js/test.js' %}"></script>
+{% endblock %} -->
+
 
 {% block content %}
 {% load webpush_notifications %}
@@ -25,11 +31,12 @@
     </tr>
     {{ form.mycolor.errors }}
     <tr>
-      <td class="frame">テストコンテンツ</td>
-      <td class="choice"><a href="javascript:changeGreenMode();">グリーン</a>
+      <td class="frame">現在のテーマカラー:</td>
+      <!-- <td class="choice"><a href="javascript:changeGreenMode();">グリーン</a>
     <a href="javascript:changeBrownMode();">ブラウン</a>
     <a href="javascript:changeDarkMode();">ブラック</a>
-    <a href="javascript:changePinkMode();">ピンク</a></td>
+    <a href="javascript:changePinkMode();">ピンク</a></td> -->
+        <td><div id="testtest">{{ user.mycolor }}</div></td>
     </tr>
     <tr>
       <td>{{ form.tz.label_tag }}</td>
@@ -46,7 +53,7 @@
       <td>{% webpush_button %}</td>
     </tr>
   </table>
-  <input type="submit" value="変更" formaction="{% url 'accounts:setting' %}"/>
+  <input type="submit" value="変更" formaction="{% url 'accounts:setting' %}" />
 
 </form>
 
