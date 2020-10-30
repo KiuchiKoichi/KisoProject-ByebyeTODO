@@ -25,13 +25,12 @@
       {% endfor %}
     {% endif %}
     
-    Group一覧<br>
-    {{ user.email }} さんのマイページ
+    <h3>Group一覧</h3>
 
     <form method="post">
       {% csrf_token %}
       <input type="text" name="name">
-      <input type="submit" value="作成" formaction="{% url 'todo:create_group' %}"/>
+      <input type="submit" class="btn btn-warning" value="作成" formaction="{% url 'todo:create_group' %}"/>
     </form>
 
     {% if user.groups.all %}
@@ -43,9 +42,9 @@
               {% csrf_token %}
               <input type="text" name="name" value="{{ group.name|slice:':-10' }}">
               <input type="hidden" name="pk" value="{{ group.pk }}">
-              <input type="submit" value="変更" formaction="{% url 'todo:update_group' %}" />
-              <input type="reset" value="リセット">
-              <input type="submit" value="削除" formaction="{% url 'todo:delete_group' %}" />
+              <input type="submit" class="btn btn-dark" value="変更" formaction="{% url 'todo:update_group' %}" />
+              <input type="reset" class="btn btn-secondary" value="リセット">
+              <input type="submit" class="btn btn-danger" value="削除" formaction="{% url 'todo:delete_group' %}" />
             </form>
           </li>
         {% endfor %}

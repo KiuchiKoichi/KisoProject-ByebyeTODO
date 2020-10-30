@@ -24,9 +24,15 @@
   <body>
 
       <!-- 追加 -->
-      <nav class="navbar navbar-dark bg-dark">
-          <a class="navbar-brand" href="/"><img src="/todo/../static/images/todo_filled_{{ user.mycolor }}.png" alt="ByebyeTodo" id="top_icon"></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <nav class="navbar" style="background-color: var(--frame-background-color);">
+          <a class="navbar-brand" href="/">
+              {% if user.is_authenticated %}
+                <img src="/todo/../static/images/todo_filled_{{ user.mycolor }}.png" alt="ByebyeTodo" id="top_icon">
+              {% else %}
+                <img src="/todo/../static/images/todo_filled_BROWN.png" alt="ByebyeTodo" id="top_icon">
+              {% endif %}
+          </a>
+          <button class="navbar-toggler navbar-dark bg-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
@@ -34,7 +40,7 @@
             <ul class="navbar-nav mr-auto">
               <li class="nav-item">
                 {% if user.is_authenticated %}
-                <a class="btn btn-outline-primary btn-sm mr-2" href="{% url 'accounts:profile' %}">マイページ</a>
+                <a class="btn btn-outline-info btn-sm mr-2" href="{% url 'accounts:profile' %}">マイページ</a>
                   <a class="nav-link" href="{% url 'accounts:setting' %}">ユーザー設定</a>
                   <a class="nav-link" href="{% url 'logout' %}">ログアウト</a>
                 {% else %}
@@ -66,7 +72,13 @@
 
       <div class="container mt-3">
         {% block body %}{% endblock %}
-        <div class="bottom_icon"><img src="/todo/../static/images/todo_{{ user.mycolor }}.png" alt="ByebyeTodo"></div>
+        <div class="bottom_icon">
+            {% if user.is_authenticated %}
+                <img src="/todo/../static/images/todo_{{ user.mycolor }}.png" alt="ByebyeTodo">
+            {% else %}
+                <img src="/todo/../static/images/todo_BROWN.png" alt="ByebyeTodo">
+            {% endif %}
+        </div>
       </div>
 
     <!-- Optional JavaScript -->
