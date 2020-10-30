@@ -14,7 +14,7 @@ function changePinkMode() {
 //let col = String(document.getElementById('testtest').value);
 
 window.onload = function changeThemeColor() {
-let col = String(document.getElementById('testtest').textContent);
+var col = String(document.getElementById('testtest').textContent);
 
 /*
 let col = "BROWN";

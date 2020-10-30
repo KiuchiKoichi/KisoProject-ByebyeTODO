@@ -32,7 +32,7 @@
 
 
 body {
-  background-color: var(--background-color);
+  /* background-color: var(--background-color); */
   color: var(--font-color);
 }
 
@@ -43,7 +43,7 @@ body {
 }
 
 #top_icon {
-    width:70%;
+    width:25%;
     max-width: 100%;
     height: auto;
 }
@@ -57,3 +57,17 @@ body {
     display: none;
 }
 */
+
+.color_choice {
+    width: 8%;
+    height: auto;
+}
+
+.bottom_icon{
+    text-align: end;
+}
+
+.bottom_icon img{
+    width: 30%;
+    height: auto;
+}

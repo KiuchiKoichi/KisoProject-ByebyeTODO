@@ -18,14 +18,14 @@
     <script type="text/javascript" src="{% static 'js/test.js' %}"></script>
     
     <title>{% block title %}ByebyeTodo{% endblock %}</title>
-    <link rel="icon" type="image/png" href="/todo/../static/images/icon_GREEN.png">
+    <link rel="icon" type="image/png" href="/todo/../static/images/icon_{{ user.mycolor }}.png">
     {% block head %}{% endblock %}
   </head>
   <body>
 
       <!-- 追加 -->
       <nav class="navbar navbar-dark bg-dark">
-          <a class="navbar-brand" href="/"><img src="{% static 'images/icon_GREEN.png' %}" alt="ByebyeTodo" id="top_icon"></a>
+          <a class="navbar-brand" href="/"><img src="/todo/../static/images/todo_filled_{{ user.mycolor }}.png" alt="ByebyeTodo" id="top_icon"></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -65,7 +65,8 @@
       </div> -->
 
       <div class="container mt-3">
-        {% block body %}{% endblock %}<img src="/todo/../static/images/icon_GREEN.png" alt="ByeByeTodo">
+        {% block body %}{% endblock %}
+        <div class="bottom_icon"><img src="/todo/../static/images/todo_{{ user.mycolor }}.png" alt="ByebyeTodo"></div>
       </div>
 
     <!-- Optional JavaScript -->
